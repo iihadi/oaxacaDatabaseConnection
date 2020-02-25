@@ -46,6 +46,10 @@ app.use(function (req, res, next) {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.get('/', function (req, res) {
+    res.send('Middleware for MySQL database and Frontend')
+})
+
 
 app.get('/products', function (req, res) {
     handleDisconnect()
