@@ -50,6 +50,14 @@ app.get('/', function (req, res) {
     res.send('Middleware for MySQL database and Frontend')
 })
 
+app.get('/active_orders', function (req, res) {
+    handleDisconnect()
+    connection.query('SELECT * FROM active_orders', function (error, results, fields) {
+        if (error) throw error;
+        res.send(results)
+    })
+})
+
 
 app.get('/products', function (req, res) {
     handleDisconnect()
