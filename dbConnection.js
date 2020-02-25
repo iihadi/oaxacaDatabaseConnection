@@ -9,7 +9,7 @@ const dbConfig = {
     database: 'heroku_f930aca5c566b3d'
 }
 
-const connection = ''
+var connection = ''
 /*Code taken from https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection*/
 function handleDisconnect() {
     connection = mysql.createConnection(dbConfig)
@@ -22,7 +22,7 @@ function handleDisconnect() {
     });                                     // process asynchronous requests in the meantime.
     // If you're also serving http, display a 503 error.
     connection.on('error', function (err) {
-        console.log('db error', err)
+        console.log('reconnecting to database')
         if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
             handleDisconnect()                         // lost due to either server restart, or a
         } else {                                      // connnection idle timeout (the wait_timeout
