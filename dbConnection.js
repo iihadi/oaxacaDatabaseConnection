@@ -9,7 +9,7 @@ const dbConfig = {
     database: 'heroku_f930aca5c566b3d'
 }
 
-var connection = ''
+var connection = mysql.createConnection(dbConfig)
 /*Code taken from https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection*/
 function handleDisconnect() {
     connection = mysql.createConnection(dbConfig)
@@ -48,29 +48,32 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/', function (req, res) {
     res.send('Middleware for MySQL database and Frontend')
+    handleDisconnect()
 })
 
 app.get('/active_orders', function (req, res) {
-    handleDisconnect()
+    connection.connect
     console.log('getting orders')
     connection.query('SELECT * FROM active_orders', function (error, results, fields) {
         if (error) throw error;
         res.send(results)
     })
+    handleDisconnect()
 })
 
 
 app.get('/products', function (req, res) {
-    handleDisconnect()
+    connection.connect
     console.log('getting orders')
     connection.query('SELECT * FROM products', function (error, results, fields) {
         if (error) throw error;
         res.send(results)
     })
+    handleDisconnect()
 })
 
 app.post('/active_orders', function (req, res) {
-    handleDisconnect()
+    connection.connect
     const active_order = { order: JSON.stringify(req.body) }
     console.log('sending order...')
     connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
@@ -86,3 +89,5 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 })
+
+handleDisconnect()
