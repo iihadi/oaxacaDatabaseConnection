@@ -52,6 +52,7 @@ app.get('/', function (req, res) {
 
 app.get('/active_orders', function (req, res) {
     handleDisconnect()
+    console.log('getting orders')
     connection.query('SELECT * FROM active_orders', function (error, results, fields) {
         if (error) throw error;
         res.send(results)
@@ -61,6 +62,7 @@ app.get('/active_orders', function (req, res) {
 
 app.get('/products', function (req, res) {
     handleDisconnect()
+    console.log('getting orders')
     connection.query('SELECT * FROM products', function (error, results, fields) {
         if (error) throw error;
         res.send(results)
