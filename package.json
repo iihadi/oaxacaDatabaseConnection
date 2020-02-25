@@ -1,7 +1,7 @@
 {
   "name": "node-example",
   "version": "1.0.0",
-  "description": "This example is so cool.",
+  "description": "This app will be used to connect the frontend oaxaca to the backend.",
   "main": "dbConnection.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,7 @@
     "example",
     "heroku"
   ],
-  "author": "jane-doe",
+  "author": "Abdul Hadi",
   "license": "MIT",
   "dependencies": {
     "express": "^4.9.8",
