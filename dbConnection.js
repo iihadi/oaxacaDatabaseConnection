@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/active_orders', function (req, res) {
-    connection.connect
+    
     console.log('getting orders')
     connection.query('SELECT * FROM active_orders', function (error, results, fields) {
         if (error) throw error;
@@ -63,7 +63,7 @@ app.get('/active_orders', function (req, res) {
 
 
 app.get('/products', function (req, res) {
-    connection.connect
+    
     console.log('getting orders')
     connection.query('SELECT * FROM products', function (error, results, fields) {
         if (error) throw error;
@@ -73,7 +73,7 @@ app.get('/products', function (req, res) {
 })
 
 app.post('/active_orders', function (req, res) {
-    connection.connect
+  
     const active_order = { order: JSON.stringify(req.body) }
     console.log('sending order...')
     connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
