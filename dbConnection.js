@@ -1,6 +1,5 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const express = require('express')
+const mysql = require('mysql')
 
 const dbConfig = {
     host: 'eu-cdbr-west-02.cleardb.net',
@@ -13,6 +12,7 @@ var connection
 /*Code taken from https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection*/
 function handleDisconnect() {
     connection = mysql.createConnection(dbConfig)
+    console.log('Connected to database')
     
     connection.connect(function (err) {              // The server is either down
         if (err) {                                     // or restarting (takes a while sometimes).
@@ -82,8 +82,8 @@ app.post('/active_orders', function (req, res) {
 })
 
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server is running on port ${PORT}.`)
 })
 
