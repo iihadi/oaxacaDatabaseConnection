@@ -79,10 +79,10 @@ app.post('/active_orders', function (req, res) {
 })
 
 
-app.get('/waiters', function (req, res) {
+app.get('/staff', function (req, res) {
     handleDisconnect()
     console.log('getting orders')
-    connection.query('SELECT * FROM waiters', function (error, results, fields) {
+    connection.query('SELECT * FROM staff', function (error, results, fields) {
         if (error) throw error;
         res.send(results)
     })
