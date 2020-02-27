@@ -9,7 +9,7 @@ const dbConfig = {
 }
 
 var connection
-/*Code taken from https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection*/
+/*Code taken from https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection */
 function handleDisconnect() {
     connection = mysql.createConnection(dbConfig)
     console.log('Connected to database')
@@ -30,9 +30,6 @@ function handleDisconnect() {
         }
     })
 }
-
-
-
 
 // Initialize the app
 const app = express();
@@ -78,6 +75,15 @@ app.post('/active_orders', function (req, res) {
         res.status(201).end()
         console.log('order sent')
 
+    })
+})
+
+app.get('/waiters', function (req, res) {
+    handleDisconnect()
+    console.log('getting logins')
+    connection.quert('SELECT * FROM waiters', function (error, results, fields) {
+        if (error) throw error
+        res.send(results)
     })
 })
 
