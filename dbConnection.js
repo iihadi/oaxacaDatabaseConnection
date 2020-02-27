@@ -78,14 +78,16 @@ app.post('/active_orders', function (req, res) {
     })
 })
 
+
 app.get('/waiters', function (req, res) {
     handleDisconnect()
-    console.log('getting logins')
-    connection.quert('SELECT * FROM waiters', function (error, results, fields) {
-        if (error) throw error
+    console.log('getting orders')
+    connection.query('SELECT * FROM waiters', function (error, results, fields) {
+        if (error) throw error;
         res.send(results)
     })
 })
+
 
 
 const PORT = process.env.PORT || 8000
