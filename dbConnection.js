@@ -25,6 +25,8 @@ function handleDisconnect() {
         console.log('Connection was lost to database, reconnecting...')
         if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
             handleDisconnect()                         // lost due to either server restart, or a
+        } else if (err.code === 'ER_USER_LIMIT_REACHED') {
+            handleDisconnect()
         } else {                                      // connnection idle timeout (the wait_timeout
             throw err                               // server variable configures this)
         }
@@ -87,6 +89,42 @@ app.get('/staff', function (req, res) {
         res.send(results)
     })
 })
+
+app.post('/kitchen_orders', function (req, res) {
+    handleDisconnect()
+    const kitchen_orders = { order: JSON.stringify(req.body) }
+    console.log('sending order...')
+    connection.query('INSERT INTO kitchen_orders set ?', kitchen_orders, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log('sent order to kitchen')
+    })
+})
+
+app.post('/delete', function (req, res) {
+    handleDisconnect()
+    var orderId = req.body[0]
+    var tableName = req.body[1]
+    console.log(orderId, tableName)
+    console.log('sending order...')
+    connection.query('DELETE FROM ? WHERE id= ? ', [tableName, orderId], function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log('deleted order id:', orderId)
+    })
+})
+
+
+app.get('/staff', function (req, res) {
+    handleDisconnect()
+    var order = { order: JSON.stringify(req.body) }
+    console.log('getting orders')
+    connection.query('SELECT * FROM staff', function (error, results, fields) {
+        if (error) throw error;
+        res.send(results)
+    })
+})
+
 
 
 
