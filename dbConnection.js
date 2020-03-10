@@ -108,12 +108,12 @@ app.post('/kitchen_orders', function (req, res) {
 
 app.post('/delete_active_orders', function (req, res) {
     handleDisconnect()
-    console.log('cancelling order id: ', JSON.stringify(req.body))
-    var orderId = JSON.stringify(req.body)
-    connection.query('DELETE FROM active_orders WHERE id= ? ', [orderId], function (error, results, fields) {
+    console.log('cancelling order id: ', req.body)
+    var orderId = req.body
+    connection.query('DELETE FROM active_orders WHERE id= ? ', orderId, function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
-        console.log(results)
+
         console.log('deleted order id:', orderId)
     })
 })
