@@ -94,15 +94,15 @@ app.get('/finished_orders', function (req, res) {
     })
 })
 
-app.post('/kitchen_orders', function (req, res) {
+app.post('/finished_orders', function (req, res) {
     handleDisconnect()
-    const active_order = { order: JSON.stringify(req.body) }
-    console.log('sending order...')
-    connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
+    var orderId = req.body.id
+    var order = JSON.stringify(req.body.order)
+    console.log('sending order id:', orderId, 'to the be delivered')
+    connection.query('INSERT INTO finished_orders SET id= ?, orders =?', [orderId, order], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
-        console.log('order sent')
-
+        console.log('sent order to kitchen')
     })
 })
 
