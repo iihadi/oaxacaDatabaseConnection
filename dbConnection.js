@@ -58,7 +58,6 @@ app.get('/active_orders', function (req, res) {
     })
 })
 
-
 app.get('/products', function (req, res) {
     handleDisconnect()
     console.log('getting orders')
@@ -67,19 +66,6 @@ app.get('/products', function (req, res) {
         res.send(results)
     })
 })
-
-app.post('/active_orders', function (req, res) {
-    handleDisconnect()
-    const active_order = { order: JSON.stringify(req.body) }
-    console.log('sending order...')
-    connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
-        if (error) throw error
-        res.status(201).end()
-        console.log('order sent')
-
-    })
-})
-
 
 app.get('/staff', function (req, res) {
     handleDisconnect()
@@ -94,6 +80,15 @@ app.get('/kitchen_orders', function (req, res) {
     handleDisconnect()
     console.log('getting orders')
     connection.query('SELECT * FROM kitchen_orders', function (error, results, fields) {
+        if (error) throw error;
+        res.send(results)
+    })
+})
+
+app.get('/finished_orders', function (req, res) {
+    handleDisconnect()
+    console.log('getting orders')
+    connection.query('SELECT * FROM finished_orders', function (error, results, fields) {
         if (error) throw error;
         res.send(results)
     })
@@ -118,20 +113,37 @@ app.post('/delete_active_orders', function (req, res) {
     connection.query('DELETE FROM active_orders WHERE id= ? ', [orderId], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
+        console.log(results)
         console.log('deleted order id:', orderId)
     })
 })
 
 
-app.get('/staff', function (req, res) {
+app.post('/active_orders', function (req, res) {
     handleDisconnect()
-    var order = { order: JSON.stringify(req.body) }
-    console.log('getting orders')
-    connection.query('SELECT * FROM staff', function (error, results, fields) {
-        if (error) throw error;
-        res.send(results)
+    const active_order = { order: JSON.stringify(req.body) }
+    console.log('sending order...')
+    connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log('order sent')
+
     })
 })
+
+
+app.post('/delete_kitchen_orders', function (req, res) {
+    handleDisconnect()
+    console.log('cancelling order id: ', JSON.stringify(req.body))
+    var orderId = JSON.stringify(req.body)
+    connection.query('DELETE FROM kitchen_orders WHERE id= ? ', [orderId], function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log(results)
+        console.log('deleted order id:', orderId)
+    })
+})
+
 
 
 
