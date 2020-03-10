@@ -97,7 +97,7 @@ app.get('/finished_orders', function (req, res) {
 app.post('/finished_orders', function (req, res) {
     handleDisconnect()
     var orderId = req.body.id
-    var order = JSON.stringify(req.body.order)
+    var order = JSON.stringify(req.body.orders)
     console.log('sending order id:', orderId, 'to the be delivered')
     connection.query('INSERT INTO finished_orders SET id= ?, order =?', [orderId, order], function (error, results, fields) {
         if (error) throw error
