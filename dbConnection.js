@@ -90,11 +90,20 @@ app.get('/staff', function (req, res) {
     })
 })
 
+app.get('/kitchen_orders', function (req, res) {
+    handleDisconnect()
+    console.log('getting orders')
+    connection.query('SELECT * FROM kitchen_orders', function (error, results, fields) {
+        if (error) throw error;
+        res.send(results)
+    })
+})
+
 app.post('/kitchen_orders', function (req, res) {
     handleDisconnect()
     var orderId = req.body.id
     var order = JSON.stringify(req.body.order)
-    console.log('sending order id:',orderId,' and order', order)
+    console.log('sending order id:',orderId,'to the kitchen')
     connection.query('INSERT INTO kitchen_orders SET id= ?, orders =?', [orderId, order], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
@@ -104,8 +113,8 @@ app.post('/kitchen_orders', function (req, res) {
 
 app.post('/delete_active_orders', function (req, res) {
     handleDisconnect()
-    var orderId = req.body[0]
-    console.log('cancelling order')
+    console.log('cancelling order id: ', JSON.stringify(req.body))
+    var orderId = JSON.stringify(req.body)
     connection.query('DELETE FROM active_orders WHERE id= ? ', [orderId], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
