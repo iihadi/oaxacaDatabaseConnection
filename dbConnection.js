@@ -99,7 +99,7 @@ app.post('/finished_orders', function (req, res) {
     var orderId = req.body.id
     var order = JSON.stringify(req.body.orders)
     console.log('sending order id:', orderId, ' and order:', order,'to the be delivered')
-    connection.query('INSERT INTO finished_orders SET id= ?', [orderId], function (error, results, fields) {
+    connection.query('INSERT INTO finished_orders SET id= ?, order=?', [orderId, order], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
         console.log('sent order to kitchen')
