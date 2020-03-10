@@ -96,6 +96,18 @@ app.get('/finished_orders', function (req, res) {
 
 app.post('/kitchen_orders', function (req, res) {
     handleDisconnect()
+    const active_order = { order: JSON.stringify(req.body) }
+    console.log('sending order...')
+    connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log('order sent')
+
+    })
+})
+
+app.post('/kitchen_orders', function (req, res) {
+    handleDisconnect()
     var orderId = req.body.id
     var order = JSON.stringify(req.body.order)
     console.log('sending order id:',orderId,'to the kitchen')
@@ -118,6 +130,29 @@ app.post('/delete_active_orders', function (req, res) {
     })
 })
 
+app.post('/delete_kitchen_orders', function (req, res) {
+    handleDisconnect()
+    console.log('cancelling order id: ', req.body)
+    var orderId = req.body
+    connection.query('DELETE FROM kitchen_orders WHERE id= ? ', orderId, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+
+        console.log('deleted order id:', orderId)
+    })
+})
+
+app.post('/delete_finished_orders', function (req, res) {
+    handleDisconnect()
+    console.log('cancelling order id: ', req.body)
+    var orderId = req.body
+    connection.query('DELETE FROM finished_orders WHERE id= ? ', orderId, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+
+        console.log('deleted order id:', orderId)
+    })
+})
 
 app.post('/active_orders', function (req, res) {
     handleDisconnect()
@@ -132,17 +167,7 @@ app.post('/active_orders', function (req, res) {
 })
 
 
-app.post('/delete_kitchen_orders', function (req, res) {
-    handleDisconnect()
-    console.log('cancelling order id: ', JSON.stringify(req.body))
-    var orderId = JSON.stringify(req.body)
-    connection.query('DELETE FROM kitchen_orders WHERE id= ? ', [orderId], function (error, results, fields) {
-        if (error) throw error
-        res.status(201).end()
-        console.log(results)
-        console.log('deleted order id:', orderId)
-    })
-})
+
 
 
 
