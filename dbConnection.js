@@ -92,22 +92,21 @@ app.get('/staff', function (req, res) {
 
 app.post('/kitchen_orders', function (req, res) {
     handleDisconnect()
-    const kitchen_orders = { order: JSON.stringify(req.body) }
-    console.log('sending order...')
-    connection.query('INSERT INTO kitchen_orders set ?', kitchen_orders, function (error, results, fields) {
+    var orderId = req.body.id
+    var order = JSON.stringify(req.body.order)
+    console.log('sending order id:',orderId,' and order', order)
+    connection.query('INSERT INTO kitchen_orders SET id= ?, orders =?', [orderId, order], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
         console.log('sent order to kitchen')
     })
 })
 
-app.post('/delete', function (req, res) {
+app.post('/delete_active_orders', function (req, res) {
     handleDisconnect()
     var orderId = req.body[0]
-    var tableName = req.body[1]
-    console.log(orderId, tableName)
-    console.log('sending order...')
-    connection.query('DELETE FROM ? WHERE id= ? ', [tableName, orderId], function (error, results, fields) {
+    console.log('cancelling order')
+    connection.query('DELETE FROM active_orders WHERE id= ? ', [orderId], function (error, results, fields) {
         if (error) throw error
         res.status(201).end()
         console.log('deleted order id:', orderId)
