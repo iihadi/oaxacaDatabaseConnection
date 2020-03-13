@@ -13,7 +13,7 @@ var connection
 function handleDisconnect() {
     
     console.log('Connected to database')
-    
+    connection = mysql.createConnection(dbConfig)
     connection.connect(function (err) {              // The server is either down
         if (err) {                                     // or restarting (takes a while sometimes).
             console.log('error when connecting to db:', err)
