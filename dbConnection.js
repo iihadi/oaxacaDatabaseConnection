@@ -113,8 +113,9 @@ app.post('/finished_orders', function (req, res) {
     handleDisconnect()
     var orderId = req.body.id
     var order = JSON.stringify(req.body.orders)
-    console.log('sending order id:', orderId, ' and order:', order,'to the be delivered')
-    connection.query('INSERT INTO finished_orders SET id= ?, order=?', [orderId, order], function (error, results, fields) {
+    console.log('sending order id:', orderId, 'to the finished')
+    console.log('order: ', order)
+    connection.query('INSERT INTO finished_orders SET id= ?, order =? ', [orderId, order], function (error, results, fields) {
         if (error) {
             throw error
             handleDisconnect()
@@ -128,7 +129,8 @@ app.post('/kitchen_orders', function (req, res) {
     handleDisconnect()
     var orderId = req.body.id
     var order = JSON.stringify(req.body.order)
-    console.log('sending order id:',orderId,'to the kitchen')
+    console.log('sending order id:', orderId, 'to the kitchen')
+    console.log('order: ', order)
     connection.query('INSERT INTO kitchen_orders SET id= ?, orders =?', [orderId, order], function (error, results, fields) {
         if (error) {
             throw error
