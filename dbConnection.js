@@ -11,7 +11,7 @@ const dbConfig = {
 var connection
 /*Code taken from https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection */
 function handleDisconnect() {
-    connection = mysql.createConnection(dbConfig)
+    
     console.log('Connected to database')
     
     connection.connect(function (err) {              // The server is either down
@@ -50,7 +50,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/active_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('getting orders')
     connection.query('SELECT * FROM active_orders', function (error, results, fields) {
         if (error) throw error;
@@ -59,7 +59,7 @@ app.get('/active_orders', function (req, res) {
 })
 
 app.get('/products', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('getting orders')
     connection.query('SELECT * FROM products', function (error, results, fields) {
         if (error) throw error;
@@ -68,7 +68,7 @@ app.get('/products', function (req, res) {
 })
 
 app.get('/staff', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('getting orders')
     connection.query('SELECT * FROM staff', function (error, results, fields) {
         if (error) throw error;
@@ -77,7 +77,7 @@ app.get('/staff', function (req, res) {
 })
 
 app.get('/kitchen_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('getting orders')
     connection.query('SELECT * FROM kitchen_orders', function (error, results, fields) {
         if (error) throw error;
@@ -86,7 +86,7 @@ app.get('/kitchen_orders', function (req, res) {
 })
 
 app.get('/finished_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('getting orders')
     connection.query('SELECT * FROM finished_orders', function (error, results, fields) {
         if (error) throw error;
@@ -95,7 +95,7 @@ app.get('/finished_orders', function (req, res) {
 })
 
 app.post('/finished_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     var orderId = req.body.id
     var order = JSON.stringify(req.body.orders)
     console.log('sending order id:', orderId, ' and order:', order,'to the be delivered')
@@ -107,7 +107,7 @@ app.post('/finished_orders', function (req, res) {
 })
 
 app.post('/kitchen_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     var orderId = req.body.id
     var order = JSON.stringify(req.body.order)
     console.log('sending order id:',orderId,'to the kitchen')
@@ -119,7 +119,7 @@ app.post('/kitchen_orders', function (req, res) {
 })
 
 app.post('/delete_active_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('cancelling order id: ', req.body)
     var orderId = req.body
     connection.query('DELETE FROM active_orders WHERE id= ? ', orderId, function (error, results, fields) {
@@ -131,7 +131,7 @@ app.post('/delete_active_orders', function (req, res) {
 })
 
 app.post('/delete_kitchen_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('cancelling order id: ', req.body)
     var orderId = req.body
     connection.query('DELETE FROM kitchen_orders WHERE id= ? ', orderId, function (error, results, fields) {
@@ -143,7 +143,7 @@ app.post('/delete_kitchen_orders', function (req, res) {
 })
 
 app.post('/delete_finished_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     console.log('cancelling order id: ', req.body)
     var orderId = req.body
     connection.query('DELETE FROM finished_orders WHERE id= ? ', orderId, function (error, results, fields) {
@@ -155,7 +155,7 @@ app.post('/delete_finished_orders', function (req, res) {
 })
 
 app.post('/active_orders', function (req, res) {
-    handleDisconnect()
+    connection = mysql.createConnection(dbConfig)
     const active_order = { order: JSON.stringify(req.body) }
     console.log('sending order...')
     connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
@@ -166,7 +166,27 @@ app.post('/active_orders', function (req, res) {
     })
 })
 
+app.post('/make_available', function (req, res) {
+    connection = mysql.createConnection(dbConfig)
+    var productId = req.body.id
+    console.log('Making id: ', productId, ' available')
+    connection.query('UPDATE products SET available=1 WHERE id=?', productId, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log('made id: ',productId,' available')
+    })
+})
 
+app.post('/make_unavailable', function (req, res) {
+    connection = mysql.createConnection(dbConfig)
+    var productId = req.body.id
+    console.log('Making id: ', productId, ' unavailable')
+    connection.query('UPDATE products SET available=0 WHERE id=?', productId, function (error, results, fields) {
+        if (error) throw error
+        res.status(201).end()
+        console.log('made id: ', productId, ' unavailable')
+    })
+})
 
 
 
