@@ -200,7 +200,7 @@ app.post('/active_orders', function (req, res) {
 
 app.post('/set_customerSessionID', function (req, res) {
     handleDisconnect()
-    const CustomerSessionID = { customerSessionID: JSON.stringify(req.body) }
+    const customerSessionID = { customerSessionID: JSON.stringify(req.body) }
     console.log('sending customerSessionID...')
     connection.query('INSERT INTO active_orders set ?', customerSessionID, function (error, results, fields) {
         if (error) {
