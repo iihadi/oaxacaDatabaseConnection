@@ -185,30 +185,18 @@ app.post('/delete_finished_orders', function (req, res) {
 
 app.post('/active_orders', function (req, res) {
     handleDisconnect()
-    const active_order = { order: JSON.stringify(req.body) }
+    const order = { order: JSON.stringify(req.body[0]) }
+	const customerSessionID = { customerSessionID: JSON.stringify(req.body[1]) }
     console.log('sending order...')
-    connection.query('INSERT INTO active_orders set ?', active_order, function (error, results, fields) {
+	console.log(order)
+	console.log(customerSessionID)
+    connection.query('INSERT INTO active_orders set order=? customerSessionID=?', [order, customerSessionID], function (error, results, fields) {
         if (error) {
             throw error
             handleDisconnect()
         }
         res.status(201).end()
         console.log('order sent')
-
-    })
-})
-
-app.post('/set_customerSessionID', function (req, res) {
-    handleDisconnect()
-    const customerSessionID = { customerSessionID: JSON.stringify(req.body) }
-    console.log('sending customerSessionID...')
-    connection.query('INSERT INTO active_orders set ?', customerSessionID, function (error, results, fields) {
-        if (error) {
-            throw error
-            handleDisconnect()
-        }
-        res.status(201).end()
-        console.log('customerSessionID sent')
 
     })
 })
