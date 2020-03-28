@@ -111,10 +111,10 @@ app.get('/finished_orders', function (req, res) {
 
 app.post('/finished_orders', function (req, res) {
     handleDisconnect()
-	var post = { orderId: req.body.id, order: JSON.stringify(req.body.orders), customerSessionID: req.body.customerSessionID}
+	var post = { id: req.body.id, order: JSON.stringify(req.body.orders), customerSessionID: req.body.customerSessionID}
     console.log('sending order id:', post.id, 'to the kitchen')
     console.log('order: ', post.order)
-	console.log('order: ', post.customerSessionID)
+	console.log('customer session ID: ', post.customerSessionID)
     connection.query('INSERT INTO finished_orders SET ? ', post, function (error, results, fields) {
         if (error) {
             throw error
@@ -127,10 +127,10 @@ app.post('/finished_orders', function (req, res) {
 
 app.post('/kitchen_orders', function (req, res) {
     handleDisconnect()
-	var post = { orderId: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID}
+	var post = { id: req.body.id, orders: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID}
     console.log('sending order id:', post.id, 'to the kitchen')
-    console.log('order: ', post.order)
-	console.log('order: ', post.customerSessionID)
+    console.log('order: ', post.orders)
+	console.log('customer session ID: ', post.customerSessionID)
     connection.query('INSERT INTO kitchen_orders SET ? ', post, function (error, results, fields) {
         if (error) {
             throw error
