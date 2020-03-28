@@ -185,10 +185,9 @@ app.post('/delete_finished_orders', function (req, res) {
 
 app.post('/active_orders', function (req, res) {
     handleDisconnect()
-    var customerSesssionID = req.body.id
-    var order = JSON.stringify(req.body.order)
-    var post = { order: order, customerSessionID: customerSesssionID }
-    console.log('sending customer id:', customerSesssionID, 'to the active orders')
+    var post = { customerSessionID: req.body.customerSessionID, order: JSON.stringify(req.body.order)}
+    console.log('Sending: ', post)
+    console.log('sending customer id:', post.customerSessionID, 'to the active orders') 
     connection.query('INSERT INTO active_orders SET ? ', post, function (error, results, fields) {
         if (error) {
             throw error
@@ -196,8 +195,7 @@ app.post('/active_orders', function (req, res) {
         }
         res.status(201).end()
         console.log('sent order to active')
-    })
-       
+    })   
 })
 
 app.post('/make_available', function (req, res) {
