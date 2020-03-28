@@ -187,9 +187,9 @@ app.post('/active_orders', function (req, res) {
     handleDisconnect()
     var customerSesssionID = req.body.id
     var order = JSON.stringify(req.body.order)
-    
+    var post = { order: order, customerSessionID: customerSesssionID }
     console.log('sending customer id:', customerSesssionID, 'to the active orders')
-    connection.query('INSERT INTO active_orders SET customerSessionID =?, order=? ', [customerSesssionID, order], function (error, results, fields) {
+    connection.query('INSERT INTO active_orders SET ? ', post, function (error, results, fields) {
         if (error) {
             throw error
             handleDisconnect()
