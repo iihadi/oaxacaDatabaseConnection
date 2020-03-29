@@ -109,19 +109,72 @@ app.get('/finished_orders', function (req, res) {
     })
 })
 
-app.post('/finished_orders', function (req, res) {
+app.post('/kitchen_finished_orders', function (req, res) {
     handleDisconnect()
-	var post = { id: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID}
-    console.log('sending order id:', post.id, 'to the kitchen')
-    console.log('order: ', post.order)
-	console.log('customer session ID: ', post.customerSessionID)
-    connection.query('INSERT INTO finished_orders SET ? ', post, function (error, results, fields) {
+	var kitchenUsername = req.body.staffUsername;
+	
+	connection.query('SELECT staffID FROM staff WHERE username = ?', kitchenUsername, function (error, results, fields) {
+
         if (error) {
             throw error
             handleDisconnect()
         }
         res.status(201).end()
-        console.log('sent order to finished')
+		
+		var kitchenStaffID = results;
+		
+        console.log('determined staff ID from staff username')
+    })
+	
+	var post = { id: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID, kitchenStaffID: kitchenStaffID }
+	
+    console.log('order: ', post.order)
+	console.log('customer session ID: ', post.customerSessionID)
+	console.log('kitchen staff ID: ', post.kitchenStaffID)
+	
+    connection.query('INSERT INTO finished_orders SET ? ', post, function (error, results, fields) {
+
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+
+        console.log('completed order to be finished')
+    })
+})
+
+app.post('/waiter_finished_orders', function (req, res) {
+    handleDisconnect()
+	var waiterUsername = req.body.staffUsername;
+	
+	connection.query('SELECT staffID FROM staff WHERE username = ?', waiterUsername, function (error, results, fields) {
+
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+		
+		var waiterStaffID = results;
+		
+        console.log('determined staff ID from staff username')
+    })
+	
+	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
+	
+    console.log('order: ', post.order)
+	console.log('waiter staff ID: ', post.waiterStaffID)
+	
+    connection.query('UPDATE finished_orders SET waiterStaffID = '+post.waiterStaffID+' WHERE id = '+post.id+'', function (error, results, fields) {
+
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+
+        console.log('completed order to be finished')
     })
 })
 
@@ -168,20 +221,6 @@ app.post('/delete_kitchen_orders', function (req, res) {
     })
 })
 
-app.post('/delete_finished_orders', function (req, res) {
-    handleDisconnect()
-    console.log('cancelling order id: ', req.body)
-    var orderId = req.body
-    connection.query('DELETE FROM finished_orders WHERE id= ? ', orderId, function (error, results, fields) {
-        if (error) {
-            throw error
-            handleDisconnect()
-        }
-        res.status(201).end()
-
-        console.log('deleted order id:', orderId)
-    })
-})
 
 app.post('/active_orders', function (req, res) {
     handleDisconnect()
