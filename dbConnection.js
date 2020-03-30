@@ -112,6 +112,7 @@ app.get('/finished_orders', function (req, res) {
 app.post('/kitchen_finished_orders', function (req, res) {
     handleDisconnect()
 	var kitchenUsername = req.body.staffUsername;
+	var kitchenStaffID = 1;
 	
 	connection.query('SELECT staffID FROM staff WHERE username = ?', kitchenUsername, function (error, results, fields) {
 
