@@ -160,7 +160,7 @@ app.post('/waiter_finished_orders', function (req, res) {
         console.log('determined staff ID from staff username')
     })
 	
-	console.log('KITCHEN STAFF ID: ', waiterStaffID)
+	console.log('WAITER STAFF ID: ', waiterStaffID)
 	
 	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
 	
