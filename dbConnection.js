@@ -127,7 +127,7 @@ app.post('/kitchen_finished_orders', function (req, res) {
 	
 	console.log('KITCHEN STAFF ID: ', kitchenStaffID)
 	
-	var post = { id: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID, kitchenStaffID: kitchenStaffID }
+	var post = { id: req.body.id, order: JSON.stringify(req.body.orders), customerSessionID: req.body.customerSessionID, kitchenStaffID: kitchenStaffID }
 	
     console.log('order: ', post.order)
 	console.log('customer session ID: ', post.customerSessionID)
