@@ -121,7 +121,7 @@ app.post('/kitchen_finished_orders', function (req, res) {
         }
         res.status(201).end()
 		
-		var kitchenStaffID = results;
+		var kitchenStaffID = results[0];
 		
         console.log('determined staff ID from staff username')
     })
