@@ -112,19 +112,22 @@ app.get('/finished_orders', function (req, res) {
 app.post('/kitchen_finished_orders', function (req, res) {
     handleDisconnect()
 	var kitchenUsername = req.body.staffUsername;
-	
+	var kitchenStaffID;
 	connection.query('SELECT staffID FROM staff WHERE username = ?', kitchenUsername, function (error, results, fields) {
 
         if (error) {
             throw error
             handleDisconnect()
         }
-        res.status(201).end()
 		
-		var kitchenStaffID = results;
+		kitchenStaffID = results;
+		
+        res.status(201).end()
 		
         console.log('determined staff ID from staff username')
     })
+	
+	console.log('HERE IS STAFF ID', kitchenStaffID);
 	
 	var post = { id: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID, kitchenStaffID: kitchenStaffID }
 	
