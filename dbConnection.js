@@ -121,7 +121,7 @@ app.post('/kitchen_finished_orders', function (req, res) {
             handleDisconnect()
         }
 		
-		setKitchenID(rows);
+		setKitchenID(results);
 		
         res.status(201).end()
 		
@@ -162,7 +162,7 @@ app.post('/waiter_finished_orders', function (req, res) {
             handleDisconnect()
         }
 		
-		setWaiterID(rows);
+		setWaiterID(results);
 		
         res.status(201).end()
 		
