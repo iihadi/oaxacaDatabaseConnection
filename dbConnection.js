@@ -154,27 +154,27 @@ app.post('/kitchen_finished_orders', function (req, res) {
 app.post('/waiter_finished_orders', function (req, res) {
     handleDisconnect()
 	var waiterUsername = req.body.staffUsername;
-	var waiterStaffID = [];
-	connection.query('SELECT staffID FROM staff WHERE username = ?', waiterUsername, function (error, results, fields) {
-
-        if (error) {
-            throw error
-            handleDisconnect()
-        } else {
-			setWaiterID(results);
-		}
-		
-        res.status(201).end()
-		
-        console.log('determined staff ID from staff username')
-    })
+	var waiterStaffID;
 	
-	function setWaiterID(id) {
-		waiterStaffID = id;
-		console.log('WAITER STAFF ID CONFIRMATION: ', waiterStaffID)
+	function setWaiterID() {
+		connection.query('SELECT staffID FROM staff WHERE username = ?', waiterUsername, function (error, results, fields) {
+
+			if (error) {
+				throw error
+				handleDisconnect()
+			} 
+			
+			waiterStaffID = results;
+			
+			res.status(201).end()
+			
+			console.log('determined staff ID from staff username')
+		})
 	}
 	
-	var post = { id: req.body.id, waiterStaffID: waiterStaffID[0] }
+	setWaiterID();
+	
+	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
 	
     console.log('order id: ', post.id)
 	console.log('waiter staff ID: ', post.waiterStaffID)
