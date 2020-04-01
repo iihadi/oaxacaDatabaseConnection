@@ -165,7 +165,7 @@ app.post('/waiter_finished_orders', function (req, res) {
 		
 		Object.keys(results).forEach(function(key) {
 			var row = results[key];
-			console.log(row.name)
+	
 		}
 		
 		setWaiterID(row);
