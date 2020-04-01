@@ -172,26 +172,7 @@ app.post('/waiter_finished_orders', function (req, res) {
         console.log('determined staff ID from staff username')
     })
 	
-	function setWaiterID(id) {
-		waiterStaffID = id;
-		console.log('KITCHEN STAFF ID CONFIRMATION: ', waiterStaffID)
-	
-		var post = { id: req.body.id, waiterStaffID: waiterStaffID }
-		
-		console.log('order: ', post.id)
-		console.log('waiter staff ID: ', post.waiterStaffID)
-		
-		connection.query('UPDATE finished_orders SET waiterStaffID = '+post.waiterStaffID+' WHERE id = '+post.id+'', function (error, results, fields) {
 
-			if (error) {
-				throw error
-				handleDisconnect()
-			}
-			res.status(201).end()
-
-			console.log('completed order to be finished')
-		})
-	}
 })
 
 app.post('/kitchen_orders', function (req, res) {
