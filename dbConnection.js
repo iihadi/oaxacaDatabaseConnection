@@ -171,12 +171,12 @@ app.post('/waiter_finished_orders', function (req, res) {
 	
 	function setWaiterID(id) {
 		waiterStaffID = id;
-		console.log('KITCHEN STAFF ID CONFIRMATION: ', waiterStaffID)
+		console.log('WAITER STAFF ID CONFIRMATION: ', waiterStaffID)
 	}
 	
 	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
 	
-    console.log('order: ', post.order)
+    console.log('order id: ', post.id)
 	console.log('waiter staff ID: ', post.waiterStaffID)
 	
     connection.query('UPDATE finished_orders SET waiterStaffID = '+post.waiterStaffID+' WHERE id = '+post.id+'', function (error, results, fields) {
