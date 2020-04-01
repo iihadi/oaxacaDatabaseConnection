@@ -160,9 +160,9 @@ app.post('/waiter_finished_orders', function (req, res) {
         if (error) {
             throw error
             handleDisconnect()
-        }
-		
-		setWaiterID(results);
+        } else {
+			setWaiterID(results);
+		}
 		
         res.status(201).end()
 		
