@@ -155,7 +155,6 @@ app.post('/waiter_finished_orders', function (req, res) {
     handleDisconnect()
 	var waiterUsername = req.body.staffUsername;
 	var waiterStaffID;
-	
 	connection.query('SELECT staffID FROM staff WHERE username = ?', waiterUsername, function (error, results, fields) {
 
         if (error) {
@@ -172,24 +171,24 @@ app.post('/waiter_finished_orders', function (req, res) {
 	
 	function setWaiterID(id) {
 		waiterStaffID = id;
-		console.log('WAITER STAFF ID CONFIRMATION: ', waiterStaffID)
-		
-		var post = { id: req.body.id, waiterStaffID: waiterStaffID }
-	
-		console.log('order id: ', post.id)	
-		console.log('waiter staff ID: ', post.waiterStaffID)
-	
-		connection.query('UPDATE finished_orders SET waiterStaffID = '+post.waiterStaffID+' WHERE id = '+post.id+'', function (error, results, fields) {
-			
-			if (error) {
-				throw error
-				handleDisconnect()
-			}
-			res.status(201).end()
-
-			console.log('completed order to be finished')
-		})
+		console.log('KITCHEN STAFF ID CONFIRMATION: ', waiterStaffID)
 	}
+	
+	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
+	
+    console.log('order: ', post.id)
+	console.log('waiter staff ID: ', post.waiterStaffID)
+	
+    connection.query('UPDATE finished_orders SET waiterStaffID = '+post.waiterStaffID+' WHERE id = '+post.id+'', function (error, results, fields) {
+
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+
+        console.log('completed order to be finished')
+    })
 })
 
 app.post('/kitchen_orders', function (req, res) {
