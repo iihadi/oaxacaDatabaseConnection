@@ -162,7 +162,12 @@ app.post('/waiter_finished_orders', function (req, res) {
             handleDisconnect()
         }
 		
-		setWaiterID(results);
+		Object.keys(results).forEach(function(key) {
+			var row = results[key];
+			console.log(row.name)
+		});
+		
+		setWaiterID(row);
 		
         res.status(201).end()
 		
