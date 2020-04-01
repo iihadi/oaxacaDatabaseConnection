@@ -176,7 +176,6 @@ app.post('/waiter_finished_orders', function (req, res) {
 	
 	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
 	
-	setWaiterID(results);
     console.log('order id: ', post.id)
 	console.log('waiter staff ID: ', post.waiterStaffID)
 	
