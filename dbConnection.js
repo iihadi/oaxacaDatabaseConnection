@@ -154,7 +154,7 @@ app.post('/kitchen_finished_orders', function (req, res) {
 app.post('/waiter_finished_orders', function (req, res) {
     handleDisconnect()
 	var waiterUsername = req.body.staffUsername;
-	var waiterStaffID;
+	var waiterStaffID = [];
 	connection.query('SELECT staffID FROM staff WHERE username = ?', waiterUsername, function (error, results, fields) {
 
         if (error) {
@@ -174,7 +174,7 @@ app.post('/waiter_finished_orders', function (req, res) {
 		console.log('WAITER STAFF ID CONFIRMATION: ', waiterStaffID)
 	}
 	
-	var post = { id: req.body.id, waiterStaffID: waiterStaffID }
+	var post = { id: req.body.id, waiterStaffID: waiterStaffID[0] }
 	
     console.log('order id: ', post.id)
 	console.log('waiter staff ID: ', post.waiterStaffID)
