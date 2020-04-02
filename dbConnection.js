@@ -111,7 +111,7 @@ app.get('/finished_orders', function (req, res) {
 
 app.post('/kitchen_finished_orders', function (req, res) {
     handleDisconnect()
-	var post = { id: req.body.id, order: JSON.stringify(req.body.orders), customerSessionID: req.body.customerSessionID, kitchenStaffID: req.body.staffUsername }
+	var post = { id: req.body.id, order: JSON.stringify(req.body.orders), customerSessionID: req.body.customerSessionID, kitchenStaffUsername: req.body.staffUsername }
 	
     console.log('order: ', post.order)
 	console.log('customer session ID: ', post.customerSessionID)
