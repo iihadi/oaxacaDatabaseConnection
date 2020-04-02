@@ -165,6 +165,39 @@ app.post('/kitchen_orders', function (req, res) {
     })
 })
 
+app.post('/manager_orders', function (req, res) {
+    handleDisconnect()
+	var post = { id: req.body.id, orders: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID, waiterStaffUsername: req.body.waiterStaffUsername, kitchenStaffUsername: req.body.kitchenStaffUsername}
+    console.log('sending order id:', post.id, 'to the manager')
+    console.log('order: ', post.orders)
+	console.log('customer session ID: ', post.customerSessionID)
+	console.log('kitchen ID: ', post.kitchenStaffUsername)
+	console.log('waiter ID: ', post.waiterStaffUsername)
+    connection.query('INSERT INTO manager_orders SET ? ', post, function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+        console.log('sent order to kitchen')
+    })
+})
+
+app.post('/delete_finished_orders', function (req, res) {
+    handleDisconnect()
+    console.log('cancelling order id: ', req.body)
+    var orderId = req.body
+    connection.query('DELETE FROM finished_orders WHERE id= ? ', orderId, function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+
+        console.log('deleted order id:', orderId)
+    })
+})
+
 app.post('/delete_active_orders', function (req, res) {
     handleDisconnect()
     console.log('cancelling order id: ', req.body)
