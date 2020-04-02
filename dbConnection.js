@@ -131,12 +131,12 @@ app.post('/kitchen_finished_orders', function (req, res) {
 
 app.post('/waiter_finished_orders', function (req, res) {
     handleDisconnect()
-	var post = { id: req.body.id, waiterStaffUsername: req.body.staffUsername }
+	var post = { waiterStaffUsername: req.body.staffUsername, id: req.body.id }
 	
     console.log('order id: ', post.id)
 	console.log('waiter staff Username: ', post.waiterStaffUsername)
 	
-    connection.query('UPDATE finished_orders SET waiterStaffUsername ='+post.waiterStaffUsername+ ' WHERE id =', post.id, function (error, results, fields) {
+    connection.query('UPDATE finished_orders SET waiterStaffUsername=? WHERE id=?', post, function (error, results, fields) {
 
         if (error) {
             throw error
