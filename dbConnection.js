@@ -136,7 +136,7 @@ app.post('/waiter_finished_orders', function (req, res) {
     console.log('order id: ', post.id)
 	console.log('waiter staff Username: ', post.waiterStaffUsername)
 	
-    connection.query('UPDATE finished_orders SET waiterStaffUsername=? WHERE id=?', post, function (error, results, fields) {
+    connection.query('UPDATE finished_orders SET waiterStaffUsername=? WHERE id=?', { waiterStaffUsername: req.body.staffUsername, id: req.body.id }, function (error, results, fields) {
 
         if (error) {
             throw error
