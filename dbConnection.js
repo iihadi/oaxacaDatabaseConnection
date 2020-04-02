@@ -167,7 +167,7 @@ app.post('/kitchen_orders', function (req, res) {
 
 app.post('/manager_orders', function (req, res) {
     handleDisconnect()
-	var post = { id: req.body.id, orders: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID, waiterStaffUsername: req.body.waiterStaffUsername, kitchenStaffUsername: req.body.kitchenStaffUsername}
+	var post = { id: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID, waiterStaffUsername: req.body.waiterStaffUsername, kitchenStaffUsername: req.body.kitchenStaffUsername}
     console.log('sending order id:', post.id, 'to the manager')
     console.log('order: ', post.orders)
 	console.log('customer session ID: ', post.customerSessionID)
