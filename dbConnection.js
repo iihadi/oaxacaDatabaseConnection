@@ -195,6 +195,22 @@ app.post('/manager_orders', function (req, res) {
     })
 })
 
+app.post('/payment_orders', function (req, res) {
+    handleDisconnect()
+	var post = { id: req.body.id, order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID }
+    console.log('sending order id:', post.id, 'to the customer for payment')
+    console.log('order to pay for: ', post.orders)
+	console.log('customer session ID: ', post.customerSessionID)
+    connection.query('INSERT INTO payment_orders SET ? ', post, function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+        console.log('sent order to kitchen')
+    })
+})
+
 app.post('/delete_finished_orders', function (req, res) {
     handleDisconnect()
     console.log('cancelling order id: ', req.body)
