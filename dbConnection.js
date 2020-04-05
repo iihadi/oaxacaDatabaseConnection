@@ -61,6 +61,18 @@ app.get('/active_orders', function (req, res) {
     })
 })
 
+app.post('/customer_payment_orders', function (req, res) {
+    handleDisconnect()
+    console.log('getting customers orders pending payment')
+    connection.query('SELECT * FROM payment_orders', function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.send(results)
+    })
+})
+
 app.get('/products', function (req, res) {
     handleDisconnect()
     console.log('getting orders')
