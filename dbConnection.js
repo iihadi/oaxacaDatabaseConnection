@@ -283,9 +283,9 @@ app.post('/active_orders', function (req, res) {
 
 app.post('/pay_orders', function (req, res) {
     handleDisconnect()
-    var customerSessionID = req.body
+    var customerSessionID = JSON.stringify(req.body)
     console.log('Marking customer ', customerSessionID, ' orders as paid!')
-    connection.query('UPDATE payment_orders SET paymentStatus=1 WHERE customerSessionID=?', customerSessionID, function (error, results, fields) {
+    connection.query('UPDATE payment_orders SET paymentStatus=1 WHERE customerSessionID = ?', customerSessionID, function (error, results, fields) {
         if (error) {
             throw error
             handleDisconnect()
