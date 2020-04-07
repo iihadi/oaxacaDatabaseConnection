@@ -281,7 +281,7 @@ app.post('/active_orders', function (req, res) {
     })   
 })
 
-app.post('/payment_orders', function (req, res) {
+app.post('/pay_orders', function (req, res) {
     handleDisconnect()
     var customerSessionID = req.body
     console.log('Marking customer ', customerSessionID, ' orders as paid!')
