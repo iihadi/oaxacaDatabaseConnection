@@ -156,7 +156,7 @@ app.post('/kitchen_finished_orders', function (req, res) {
 app.post('/update_products', function (req, res) {
     handleDisconnect()
     console.log('Updating products...')
-    connection.query('UPDATE products SET name=? type=? price=? description=? available=? calories=? glutenfree=? vegan=? vegetarian=?', [req.body.name, req.body.type, req.body.price, req.body.description, req.body.available, req.body.calories, req.body.glutenfree, req.body.vegan, req.body.vegetarian], function (error, results, fields) {
+    connection.query('UPDATE products SET name=?, type=?, price=?, description=?, available=?, calories=?, glutenfree=?, vegan=?, vegetarian=?', [req.body.name, req.body.type, req.body.price, req.body.description, req.body.available, req.body.calories, req.body.glutenfree, req.body.vegan, req.body.vegetarian], function (error, results, fields) {
         if (error) {
             throw error
             handleDisconnect()
