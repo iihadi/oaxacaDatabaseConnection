@@ -97,9 +97,21 @@ app.get('/staff', function (req, res) {
     })
 })
 
+app.get('/manager_orders', function (req, res) {
+    handleDisconnect()
+    console.log('getting orders')
+    connection.query('SELECT * FROM manager_orders', function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.send(results)
+    })
+})
+
 app.get('/managerlogin', function (req, res) {
     handleDisconnect()
-    console.log('getting managers')
+    console.log('getting all completed staff orders')
     connection.query('SELECT * FROM managerlogin', function (error, results, fields) {
         if (error) {
             throw error
