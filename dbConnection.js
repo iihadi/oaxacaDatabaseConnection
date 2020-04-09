@@ -273,6 +273,21 @@ app.post('/payment_orders', function (req, res) {
     })
 })
 
+app.post('/delete_waiter_alerts', function (req, res) {
+    handleDisconnect()
+    console.log('cancelling alert id: ', req.body)
+    var alertId = req.body
+    connection.query('DELETE FROM waiter_alerts WHERE alert_ID=?', alertId, function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.status(201).end()
+
+        console.log('deleted order id:', orderId)
+    })
+})
+
 app.post('/delete_finished_orders', function (req, res) {
     handleDisconnect()
     console.log('cancelling order id: ', req.body)
