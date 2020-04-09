@@ -217,14 +217,6 @@ app.post('/kitchen_orders', function (req, res) {
 app.post('/waiter_alerts', function (req, res) {
     handleDisconnect()
 	console.log('adding a waiter alert from customer: ', req.body.customerSessionID)
-    connection.query('INSERT INTO waiter_alerts SET ?', req.body.customerSessionID, function (error, results, fields) {
-        if (error) {
-            throw error
-            handleDisconnect()
-        }
-        res.status(201).end()
-        console.log('sent alert to waiter!')
-    })
 })
 
 app.post('/manager_orders', function (req, res) {
