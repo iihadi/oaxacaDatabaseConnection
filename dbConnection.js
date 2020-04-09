@@ -49,6 +49,18 @@ app.get('/', function (req, res) {
     res.send('Middleware for MySQL database and Frontend')
 })
 
+app.get('/waiter_alerts', function (req, res) {
+    handleDisconnect()
+    console.log('getting orders')
+    connection.query('SELECT * FROM waiter_alerts', function (error, results, fields) {
+        if (error) {
+            throw error
+            handleDisconnect()
+        }
+        res.send(results)
+    })
+})
+
 app.get('/active_orders', function (req, res) {
     handleDisconnect()
     console.log('getting orders')
