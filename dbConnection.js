@@ -296,16 +296,17 @@ app.post('/active_orders', function (req, res) {
 
 app.post('/pay_orders', function (req, res) {
     handleDisconnect()
-    var customerSessionID = req.body
-    console.log('Marking customer ', customerSessionID, ' orders as paid!')
-    connection.query('UPDATE payment_orders SET paymentStatus=1 WHERE customerSessionID=?', customerSessionID, function (error, results, fields) {
+    console.log('Marking customer ', req.body.customerSessionID, ' orders as paid!')
+    connection.query('UPDATE payment_orders SET paymentStatus=1 WHERE customerSessionID=?', req.body.customerSessionID, function (error, results, fields) {
         if (error) {
             throw error
             handleDisconnect()
         }
         res.status(201).end()
-        console.log('MARKED CUSTOMER: ', customerSessionID, ' ORDERS AS PAID SUCCESSFULLY')
+        
     })
+    
+   
 })
 
 app.post('/make_available', function (req, res) {
