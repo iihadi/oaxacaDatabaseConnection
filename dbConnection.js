@@ -51,7 +51,7 @@ app.get('/', function (req, res) {
 
 app.get('/waiter_alerts', function (req, res) {
     handleDisconnect()
-    console.log('getting orders')
+    console.log('getting pending alerts!')
     connection.query('SELECT * FROM waiter_alerts', function (error, results, fields) {
         if (error) {
             throw error
