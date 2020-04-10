@@ -284,7 +284,7 @@ app.post('/delete_waiter_alerts', function (req, res) {
         }
         res.status(201).end()
 
-        console.log('deleted order id:', orderId)
+        console.log('deleted order id:', alertId)
     })
 })
 
