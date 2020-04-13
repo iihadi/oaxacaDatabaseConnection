@@ -333,7 +333,7 @@ app.post('/delete_kitchen_orders', function (req, res) {
 
 app.post('/active_orders', function (req, res) {
     handleDisconnect()
-    var post = { order: JSON.stringify(req.body.order), customerSessionID: req.body.customerSessionID }
+    var post = { customerSessionID: req.body.customerSessionID, order: JSON.stringify(req.body.order)}
     console.log('Sending: ', post)
     console.log('sending customer id:', post.customerSessionID, 'to the active orders') 
     connection.query('INSERT INTO active_orders SET ? ', post, function (error, results, fields) {
